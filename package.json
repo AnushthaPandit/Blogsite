@@ -25,8 +25,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "dev-server": "npm run build && nodemon server",
-    "prod-server": "npm run build && node server",
+    "dev-server": "nodemon server",
+    "prod-server": "node server",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
