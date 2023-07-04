@@ -4,7 +4,7 @@ export function getToken() {
 	const localToken = localStorage.getItem(localtoragekeys.token);
 
 	if (!localToken) {
-		return true;
+		return false;
 	}
 
 	return localToken;

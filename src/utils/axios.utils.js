@@ -1,7 +1,9 @@
 import axios from "axios";
 
+import configs from "../configs";
+
 const axiosHelper = axios.create({
-	baseURL: `https://www.wednow.in/`,
+	baseURL: configs.API_BASE_URL,
 });
 
 axiosHelper.defaults.headers = {
