@@ -2,6 +2,8 @@ import React from "react";
 import IconButton from "@mui/material/IconButton";
 import CancelIcon from "@mui/icons-material/Cancel";
 
+import configs from "../../configs";
+
 const ImagePreview = ({ defaulImges, onCrossClick }) => {
 	const handleCrossClick = (imageArrayIndex) => {
 		if (typeof onCrossClick === "function") {
@@ -22,7 +24,12 @@ const ImagePreview = ({ defaulImges, onCrossClick }) => {
 							}}>
 							<CancelIcon />
 						</IconButton>
-						<img width="100" height={"100"} src={"/logo192.png"} alt="" />
+						<img
+							width="100"
+							height={"100"}
+							src={`${configs.BASE_URL}/${e}`}
+							alt=""
+						/>
 					</div>
 				) : (
 					""

@@ -34,9 +34,7 @@ const Editor = (props) => {
 	];
 
 	const [loading, setloading] = useState(false);
-	const [headerImage, setheaderImage] = useState(
-		"media/BridalImages/default.jpg"
-	);
+	const [headerImage, setheaderImage] = useState("media/default.jpg");
 	const [paragraphSets, setparagraphSets] = useState(initialParaSettings);
 	const [initialValues, setinitialValues] = useState(initialVals);
 
@@ -54,6 +52,7 @@ const Editor = (props) => {
 				data: { data },
 			} = await getSingleRawBlog(BLOG_ID);
 			if (data) {
+				setheaderImage(data.header_image);
 				setinitialValues(data);
 				if (data.sets.length) {
 					setparagraphSets(data.sets);
@@ -85,7 +84,7 @@ const Editor = (props) => {
 	};
 
 	useEffect(() => {
-		// fetchBlogData();
+		fetchBlogData();
 		// eslint-disable-next-line
 	}, []);
 

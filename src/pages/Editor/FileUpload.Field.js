@@ -3,7 +3,7 @@ import React from "react";
 import { Box, TextField, Typography } from "@mui/material";
 
 import ImagePreview from "./ImagePreview.";
-import { imageUploadAPI } from "../../apis/blog.apis";
+import { imageUploadAPI } from "../../apis/image.apis";
 
 const FileUploadField = ({
 	onUpload,
@@ -39,7 +39,7 @@ const FileUploadField = ({
 			fileFormData.append("images", e.target.files[0], e.target.files[0].name);
 		}
 
-		imageUploadAPI(isMultiple ? "array" : "single", "blogImages", fileFormData)
+		imageUploadAPI(isMultiple ? "array" : "single", "blog_images", fileFormData)
 			.then((res) => {
 				const {
 					data: { data },
