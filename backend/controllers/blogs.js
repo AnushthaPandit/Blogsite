@@ -1,6 +1,8 @@
 const slugify = require("slugify");
+const moment = require("moment");
 
 const asyncHandler = require("../utils/asyncHandler");
+const ErrorResponse = require("../utils/ErrorResponse");
 const pool = require("../libs/pool");
 
 exports.getAllBlogs = asyncHandler(async (req, res, next) => {
@@ -159,4 +161,89 @@ exports.updateBlog = asyncHandler(async (req, res, next) => {
 	}
 
 	res.send({ message: "data updated successfully!", data: { blog_id: id } });
+});
+
+exports.fetchPreviewBlog = asyncHandler(async (req, res, next) => {
+	const blog_slug = req.params.slug;
+
+	let q = `SELECT * FROM blogs WHERE slug='${blog_slug}'`;
+	let { rows, rowCount } = await pool.query(q);
+
+	if (!rowCount) {
+		throw new ErrorResponse("Blog Not Found!", 404);
+	}
+
+	let blog_data = { ...rows[0] };
+
+	q = `SELECT * FROM blog_sets WHERE blog_id=${blog_data.blog_id} order by set_id asc`;
+	let { rows: sets } = await pool.query(q);
+
+	const context = {
+		base_url: "https://www.feba.co.in/",
+		slug: blog_data.slug,
+		blog_created_time: blog_data.blog_created_time,
+		headerImage: blog_data.header_image,
+		title: blog_data.title,
+		description: blog_data.desc,
+		blog_date: moment(blog_data.blog_created_time).format("MMMM Do YYYY"),
+		h1: blog_data.h1,
+		h2: blog_data.h2,
+
+		sets: sets.map((d) => ({
+			singleImage: d.single_image,
+			slideImage: d.slide_image,
+			carousel: d.carousel,
+			paraTitle: d.para_title,
+			para: d.para,
+		})),
+
+		bottomBar: {
+			//texts
+			h3: blog_data.bottom_bar_h3,
+			h5: blog_data.bottom_bar_h5,
+
+			//buttons
+			btn_1_text: blog_data.btn_1_text,
+			btn_1_url: blog_data.btn_1_url,
+			btn_2_text: blog_data.btn_2_text,
+			btn_2_url: blog_data.btn_2_url,
+		},
+	};
+
+	//counter will indicate how many falsy values are in
+	//bottomBar property
+	let numOfFalsyVals = 0;
+
+	//create array of boolean values of Objects value
+	//this will indicate if key is empty
+	let booleanValuesOfBottomBar = Object.values(context.bottomBar).map(Boolean);
+	for (const boolVal of booleanValuesOfBottomBar) {
+		if (!boolVal) {
+			numOfFalsyVals++;
+		}
+	}
+
+	//if number of falsy values is equal to booleanValuesOfBottomBar length
+	//that means bottomBar is empty
+	context.isBottomBarSettingEmpty =
+		numOfFalsyVals === booleanValuesOfBottomBar.length;
+
+	res.render("blogs/index", context);
+});
+
+exports.getBlogSiteMap = asyncHandler(async (req, res, next) => {
+	const { rows } = await pool.query(`select title, slug from blogs`);
+	const base_url = "https://www.wednow.in/";
+
+	const blogs_text_hrefs = rows.map((e) => ({
+		text: e.title,
+		href: `blogs/${e.slug}`,
+	}));
+
+	const context = {
+		base_url,
+		blogs_text_hrefs,
+	};
+
+	res.render("blogs/sitemap", context);
 });

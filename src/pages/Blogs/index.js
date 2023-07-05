@@ -117,7 +117,7 @@ const BlogList = () => {
 
 										<TableCell align="right">
 											<a
-												href={`${configs.BASE_URL}/blogs/${row.slug}`}
+												href={`${configs.BASE_URL}/pages/articles/wedding/${row.slug}/preview`}
 												target="_blank"
 												rel="noopener noreferrer">
 												preview

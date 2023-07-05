@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Box, TextField, Modal, Typography } from "@mui/material";
+import { Button, Box, TextField, Modal } from "@mui/material";
 
 import BackdropLoader from "../../components/Backdrop";
 import { createBlog } from "../../apis/blog.apis";
