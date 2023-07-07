@@ -6,7 +6,7 @@ const ErrorResponse = require("../utils/ErrorResponse");
 const pool = require("../libs/pool");
 
 exports.getAllBlogs = asyncHandler(async (req, res, next) => {
-	let q = `SELECT * FROM blogs;`;
+	let q = `SELECT * FROM blogs order by blog_id desc;`;
 
 	const { rowCount, rows } = await pool.query(q);
 
@@ -94,7 +94,8 @@ exports.updateBlog = asyncHandler(async (req, res, next) => {
 					btn_1_url=$9,
 					btn_2_text=$10,
 					btn_2_url=$11,
-					slug=$12
+					slug=$12,
+					blog_update_time=Now()
 				WHERE
 					blog_id=$13
 			`;
@@ -182,10 +183,18 @@ exports.fetchPreviewBlog = asyncHandler(async (req, res, next) => {
 		base_url: "https://www.feba.co.in/",
 		slug: blog_data.slug,
 		blog_created_time: blog_data.blog_created_time,
+		blog_update_time: blog_data.blog_update_time,
 		headerImage: blog_data.header_image,
 		title: blog_data.title,
 		description: blog_data.desc,
 		blog_date: moment(blog_data.blog_created_time).format("MMMM Do YYYY"),
+		blog_date_iso: moment(blog_data.blog_created_time).toISOString(),
+		blog_update_date: blog_data.blog_update_time
+			? moment(blog_data.blog_update_time).format("MMMM Do YYYY")
+			: undefined,
+		blog_update_date_iso: blog_data.blog_update_time
+			? moment(blog_data.blog_update_time).toISOString()
+			: undefined,
 		h1: blog_data.h1,
 		h2: blog_data.h2,
 
