@@ -120,7 +120,7 @@ const Paragraph = ({
 					<Box m={1} pt={3}>
 						<TextField
 							variant="outlined"
-							label={"Para Title"}
+							label={"Para Title (h2)"}
 							name={"para_title"}
 							defaultValue={fieldsStructure[index].para_title}
 							onChange={handleChange.bind(this, index)}
