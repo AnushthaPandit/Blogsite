@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Typography, Box, TextField, Divider } from "@mui/material";
+import { Typography, Box, TextField, Divider, Switch } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import BubbleButon from "./Bubbles";
@@ -24,7 +24,16 @@ const EditBog = ({
 			onSubmit={onSubmitHandler}
 			enableReinitialize>
 			<Form>
-				<Typography variant="h4">Edit Blog</Typography>
+				<Box
+					sx={{
+						width: "100%",
+						display: "flex",
+						justifyContent: "space-between",
+						alignItems: "center",
+					}}>
+					<Typography variant="h4">Edit Blog</Typography>
+					<Switch checked={initialValues.is_published} size="large" />
+				</Box>
 
 				{/* SEO header image */}
 

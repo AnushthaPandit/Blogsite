@@ -7,16 +7,20 @@ import Login from "./pages/Login";
 import Blogs from "./pages/Blogs";
 import Editor from "./pages/Editor";
 
+import BlogsListContext from "./context/BlogList.context";
+
 export default function App() {
 	return (
-		<Router>
-			<Switch>
-				<PrivateRoute exact path="/" Comp={Blogs} />
-				<Route path="/login">
-					<Login />
-				</Route>
-				<PrivateRoute path="/blog/edit/:id" Comp={Editor} />
-			</Switch>
-		</Router>
+		<BlogsListContext>
+			<Router>
+				<Switch>
+					<PrivateRoute exact path="/" Comp={Blogs} />
+					<Route path="/login">
+						<Login />
+					</Route>
+					<PrivateRoute path="/blog/edit/:id" Comp={Editor} />
+				</Switch>
+			</Router>
+		</BlogsListContext>
 	);
 }

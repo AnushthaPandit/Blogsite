@@ -19,11 +19,11 @@ import BackdropLoader from "../../components/Backdrop";
 import CreateBlog from "./CreateBlog";
 
 import configs from "../../configs";
-import { getAllBlogs, deleteBlogById } from "../../apis/blog.apis";
+import { deleteBlogById } from "../../apis/blog.apis";
+import { useBlogList } from "../../context/BlogList.context";
 
 const BlogList = () => {
-	const [rows, setrows] = useState([]);
-	const [loading, setloading] = useState(false);
+	const { setloading, loading, rows, fetchBlogs } = useBlogList();
 	const [openCreateDialog, setopenCreateDialog] = useState(false);
 
 	const browserHistory = useHistory();
@@ -44,22 +44,6 @@ const BlogList = () => {
 				}
 			})();
 		}
-	};
-
-	const fetchBlogs = () => {
-		(async () => {
-			try {
-				setloading(true);
-				const {
-					data: { data },
-				} = await getAllBlogs();
-				setrows(data);
-			} catch (error) {
-				alert("something went wrong!");
-			} finally {
-				setloading(false);
-			}
-		})();
 	};
 
 	useEffect(() => {

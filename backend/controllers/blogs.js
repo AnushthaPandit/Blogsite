@@ -166,8 +166,9 @@ exports.updateBlog = asyncHandler(async (req, res, next) => {
 
 exports.fetchPreviewBlog = asyncHandler(async (req, res, next) => {
 	const blog_slug = req.params.slug;
+	const is_preview = req.path.endsWith("/preview");
 
-	let q = `SELECT * FROM blogs WHERE slug='${blog_slug}'`;
+	let q = `SELECT * FROM blogs WHERE slug='${blog_slug}' and is_published=${!is_preview}`;
 	let { rows, rowCount } = await pool.query(q);
 
 	if (!rowCount) {
