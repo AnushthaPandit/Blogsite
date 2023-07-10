@@ -4,9 +4,10 @@ const moment = require("moment");
 const asyncHandler = require("../utils/asyncHandler");
 const ErrorResponse = require("../utils/ErrorResponse");
 const pool = require("../libs/pool");
+const cat_services = require("../services/categories.services");
 
 exports.getAllBlogs = asyncHandler(async (req, res, next) => {
-	let q = `SELECT * FROM blogs order by blog_id desc;`;
+	let q = `SELECT blogs.*, categories.category, categories.slug as cat_slug FROM blogs left join categories on blogs.category_id=categories.id order by blog_id desc;`;
 
 	const { rowCount, rows } = await pool.query(q);
 
@@ -42,17 +43,28 @@ exports.createBlog = asyncHandler(async (req, res, next) => {
 
 exports.getSingleRawBlog = asyncHandler(async (req, res, next) => {
 	const { id } = req.params;
-	let q = "select * from blogs where blog_id=" + id;
-	const { rows, rowCount } = await pool.query(q);
+	let q =
+		"SELECT blogs.*, categories.category FROM blogs left join categories on blogs.category_id=categories.id where blog_id=$1";
+	const { rows, rowCount } = await pool.query({
+		text: q,
+		values: [id],
+	});
+
+	const { rows: cat_rows } = await pool.query({
+		text: "select * from categories order by id asc",
+	});
 
 	let data = rows[0];
 
 	if (rowCount) {
-		let q =
-			"select * from blog_sets where blog_id=" + id + " order by set_id asc";
-		const { rows, rowCount } = await pool.query(q);
+		let q = "select * from blog_sets where blog_id=$1 order by set_id asc";
+		const { rows, rowCount } = await pool.query({
+			text: q,
+			values: [id],
+		});
 
 		data.sets = [];
+		data.cat_rows = cat_rows;
 
 		if (rowCount) {
 			data.sets.push(...rows);
@@ -78,7 +90,10 @@ exports.updateBlog = asyncHandler(async (req, res, next) => {
 		btn_1_url,
 		btn_2_text,
 		btn_2_url,
+		category_id,
 	} = req.body;
+
+	console.log({ category_id });
 
 	const slug = slugify(title);
 
@@ -95,9 +110,10 @@ exports.updateBlog = asyncHandler(async (req, res, next) => {
 					btn_2_text=$10,
 					btn_2_url=$11,
 					slug=$12,
-					blog_update_time=Now()
+					blog_update_time=Now(),
+					category_id=$13
 				WHERE
-					blog_id=$13
+					blog_id=$14
 			`;
 	let values = [
 		title,
@@ -112,6 +128,7 @@ exports.updateBlog = asyncHandler(async (req, res, next) => {
 		btn_2_text,
 		btn_2_url,
 		slug,
+		category_id,
 		id,
 	];
 
@@ -166,7 +183,14 @@ exports.updateBlog = asyncHandler(async (req, res, next) => {
 
 exports.fetchPreviewBlog = asyncHandler(async (req, res, next) => {
 	const blog_slug = req.params.slug;
+	const category = req.params.category;
 	const is_preview = req.path.endsWith("/preview");
+
+	const cat_data = await cat_services.get_cat_by_slug(category);
+
+	if (!cat_data) {
+		throw new ErrorResponse("Blog Not Found!", 404);
+	}
 
 	let q;
 

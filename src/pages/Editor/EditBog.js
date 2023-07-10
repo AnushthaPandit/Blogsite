@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-import { Typography, Box, TextField, Divider, Button } from "@mui/material";
+import {
+	Typography,
+	Box,
+	TextField,
+	Divider,
+	Button,
+	Select,
+	MenuItem,
+	InputLabel,
+} from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import BubbleButon from "./Bubbles";
@@ -77,6 +86,34 @@ const EditBog = ({
 						"media/BridalImages/default.jpg"
 					)}
 				/>
+
+				{/* Title */}
+				{initialValues.category_id ? (
+					<Field as="select" name="category_id">
+						{(props) => {
+							let { field } = props;
+							return (
+								<Box m={1} pt={3}>
+									<InputLabel id="category">Category</InputLabel>
+									<Select
+										labelId="category"
+										id="category-select"
+										label="Category"
+										required
+										defaultValue={initialValues.category_id}
+										sx={{ minWidth: "300px" }}
+										{...field}>
+										{initialValues.cat_rows?.map((v, i) => (
+											<MenuItem key={i} value={v.id}>
+												{v.category}
+											</MenuItem>
+										))}
+									</Select>
+								</Box>
+							);
+						}}
+					</Field>
+				) : null}
 
 				{/* Title */}
 				<Field type="text" name="title">

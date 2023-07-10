@@ -91,6 +91,7 @@ const BlogList = () => {
 								<TableRow>
 									<TableCell>Blog id</TableCell>
 									<TableCell align="left">Title</TableCell>
+									<TableCell align="left">Category</TableCell>
 									<TableCell align="right">Header SEO Image</TableCell>
 									<TableCell align="right">Blog Created At</TableCell>
 									<TableCell align="right">URL</TableCell>
@@ -107,6 +108,7 @@ const BlogList = () => {
 											{row.blog_id}
 										</TableCell>
 										<TableCell align="left">{row.title}</TableCell>
+										<TableCell align="left">{row.category}</TableCell>
 										<TableCell align="right">
 											<img
 												height="30"
@@ -123,7 +125,7 @@ const BlogList = () => {
 
 										<TableCell align="right">
 											<a
-												href={`${configs.BASE_URL}/pages/articles/wedding/${row.slug}/preview`}
+												href={`${configs.BASE_URL}/pages/articles/${row.cat_slug}/${row.slug}/preview`}
 												target="_blank"
 												rel="noopener noreferrer">
 												preview
