@@ -11,16 +11,16 @@ import BlogsListContext from "./context/BlogList.context";
 
 export default function App() {
 	return (
-		<BlogsListContext>
-			<Router>
-				<Switch>
+		<Router>
+			<Switch>
+				<Route path="/login">
+					<Login />
+				</Route>
+				<BlogsListContext>
 					<PrivateRoute exact path="/" Comp={Blogs} />
-					<Route path="/login">
-						<Login />
-					</Route>
 					<PrivateRoute path="/blog/edit/:id" Comp={Editor} />
-				</Switch>
-			</Router>
-		</BlogsListContext>
+				</BlogsListContext>
+			</Switch>
+		</Router>
 	);
 }
