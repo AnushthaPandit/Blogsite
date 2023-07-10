@@ -7,6 +7,7 @@ const {
 	createBlog,
 	getSingleRawBlog,
 	updateBlog,
+	toggleBlogPublish,
 } = require("../controllers/blogs");
 
 const router = express.Router();
@@ -17,5 +18,7 @@ router
 	.delete(auth, deleteBlog)
 	.get(auth, getSingleRawBlog)
 	.put(auth, updateBlog);
+
+router.route("/:id/toggle-publish").patch(auth, toggleBlogPublish);
 
 module.exports = router;

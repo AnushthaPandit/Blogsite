@@ -3,6 +3,7 @@ import {
 	putRequest,
 	deleteRequest,
 	postRequest,
+	patchRequest,
 } from "../utils/axios.utils";
 import { getHeaders, getAuthHeader } from "../utils/api.utils";
 
@@ -21,4 +22,12 @@ export const updateBlogById = (id, data) => {
 
 export const deleteBlogById = (id) => {
 	return deleteRequest(`blogs/${id}`, getHeaders(getAuthHeader()));
+};
+
+export const togglePublish = (id, is_published) => {
+	return patchRequest(
+		`blogs/${id}/toggle-publish`,
+		{ is_published },
+		getHeaders(getAuthHeader())
+	);
 };

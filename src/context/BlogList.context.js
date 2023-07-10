@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 import { getAllBlogs } from "../apis/blog.apis";
 
@@ -23,6 +23,10 @@ export default function BlogsListContext({ children }) {
 			}
 		})();
 	};
+
+	useEffect(() => {
+		fetchBlogs();
+	}, []);
 
 	return (
 		<Context.Provider

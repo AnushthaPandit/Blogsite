@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { Typography, Box, TextField, Divider, Switch } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -6,6 +6,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import BubbleButon from "./Bubbles";
 import FileUploadField from "./FileUpload.Field";
 import Paragraph from "./Paragraph";
+import BackdropLoader from "../../components/Backdrop";
+
+import { togglePublish } from "../../apis/blog.apis";
 
 const EditBog = ({
 	initialValues,
@@ -17,6 +20,26 @@ const EditBog = ({
 	setfieldsStructure,
 	setloading,
 }) => {
+	const [isLoading, setisLoading] = useState(false);
+	const [is_published, setis_published] = useState(initialValues.is_published);
+
+	const handleSwithcChange = async (e) => {
+		try {
+			setisLoading(true);
+			const is_checked = e.target.checked;
+			await togglePublish(initialValues.blog_id, is_checked);
+			setis_published(is_checked);
+		} catch (error) {
+			alert("Something went wrong!");
+		} finally {
+			setisLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		setis_published(initialValues.is_published);
+	}, [initialValues.is_published]);
+
 	return (
 		<Formik
 			initialValues={initialValues}
@@ -24,6 +47,7 @@ const EditBog = ({
 			onSubmit={onSubmitHandler}
 			enableReinitialize>
 			<Form>
+				<BackdropLoader open={isLoading} />
 				<Box
 					sx={{
 						width: "100%",
@@ -32,7 +56,11 @@ const EditBog = ({
 						alignItems: "center",
 					}}>
 					<Typography variant="h4">Edit Blog</Typography>
-					<Switch checked={initialValues.is_published} size="large" />
+					<Switch
+						onChange={handleSwithcChange}
+						checked={is_published}
+						size="large"
+					/>
 				</Box>
 
 				{/* SEO header image */}

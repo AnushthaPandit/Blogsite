@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
 
@@ -46,10 +46,6 @@ const BlogList = () => {
 		}
 	};
 
-	useEffect(() => {
-		fetchBlogs();
-	}, []);
-
 	return (
 		<>
 			<BackdropLoader open={loading} />
@@ -68,7 +64,7 @@ const BlogList = () => {
 							<TableHead>
 								<TableRow>
 									<TableCell>Blog id</TableCell>
-									<TableCell align="right">Title</TableCell>
+									<TableCell align="left">Title</TableCell>
 									<TableCell align="right">Header SEO Image</TableCell>
 									<TableCell align="right">Blog Created At</TableCell>
 									<TableCell align="right">URL</TableCell>
@@ -82,9 +78,7 @@ const BlogList = () => {
 										<TableCell component="th" scope="row">
 											{row.blog_id}
 										</TableCell>
-										<TableCell align="right">
-											{row.title.slice(0, 12)}
-										</TableCell>
+										<TableCell align="left">{row.title}</TableCell>
 										<TableCell align="right">
 											<img
 												height="30"

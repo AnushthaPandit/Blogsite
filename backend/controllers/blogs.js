@@ -257,3 +257,20 @@ exports.getBlogSiteMap = asyncHandler(async (req, res, next) => {
 
 	res.render("blogs/sitemap", context);
 });
+
+exports.toggleBlogPublish = asyncHandler(async (req, res, next) => {
+	const { id } = req.params;
+	const { is_published: is_published_q } = req.body;
+	const is_published = Boolean(is_published_q);
+
+	let q = `UPDATE blogs SET 
+					is_published=$1
+				WHERE
+					blog_id=$2
+			`;
+	let values = [is_published, id];
+
+	await pool.query({ text: q, values });
+
+	res.send({ message: "data updated successfully!", data: { blog_id: id } });
+});

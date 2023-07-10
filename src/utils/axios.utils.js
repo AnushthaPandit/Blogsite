@@ -28,3 +28,7 @@ export function putRequest(URL, payload, config) {
 export function deleteRequest(URL, config) {
 	return axiosHelper.delete(`/${URL}`, config);
 }
+
+export function patchRequest(URL, payload, config) {
+	return axiosHelper.patch(`/${URL}`, payload, config);
+}
