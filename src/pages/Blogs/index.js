@@ -21,12 +21,16 @@ import CreateBlog from "./CreateBlog";
 import configs from "../../configs";
 import { deleteBlogById } from "../../apis/blog.apis";
 import { useBlogList } from "../../context/BlogList.context";
+import { getRole } from "../../utils/login.utils";
 
 const BlogList = () => {
 	const { setloading, loading, rows, fetchBlogs } = useBlogList();
 	const [openCreateDialog, setopenCreateDialog] = useState(false);
 
 	const browserHistory = useHistory();
+	const role = getRole();
+
+	const is_admin = role === "admin";
 
 	const handleDelete = (blog_id) => {
 		if (
@@ -69,7 +73,9 @@ const BlogList = () => {
 									<TableCell align="right">Blog Created At</TableCell>
 									<TableCell align="right">URL</TableCell>
 									<TableCell align="right">Edit</TableCell>
-									<TableCell align="right">Delete</TableCell>
+									{is_admin ? (
+										<TableCell align="right">Delete</TableCell>
+									) : null}
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -109,12 +115,14 @@ const BlogList = () => {
 												<EditIcon color="primary" />
 											</IconButton>
 										</TableCell>
-										<TableCell align="right">
-											<IconButton
-												onClick={handleDelete.bind(this, row.blog_id)}>
-												<DeleteIcon color="primary" />
-											</IconButton>
-										</TableCell>
+										{is_admin ? (
+											<TableCell align="right">
+												<IconButton
+													onClick={handleDelete.bind(this, row.blog_id)}>
+													<DeleteIcon color="primary" />
+												</IconButton>
+											</TableCell>
+										) : null}
 									</TableRow>
 								))}
 							</TableBody>

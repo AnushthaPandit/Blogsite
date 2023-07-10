@@ -3,7 +3,6 @@ const ErrorResponse = require("../utils/ErrorResponse");
 
 module.exports = (role = "editor") =>
 	asyncHandler((req, res, next) => {
-		console.log(req.userData);
 		if (!req.userData) {
 			return next(
 				new ErrorResponse(

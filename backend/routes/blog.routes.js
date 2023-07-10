@@ -16,7 +16,7 @@ const router = express.Router();
 router.route("/").get(auth, getAllBlogs).post(auth, createBlog);
 router
 	.route("/:id")
-	.delete(auth, deleteBlog)
+	.delete(auth, roleAuth("admin"), deleteBlog)
 	.get(auth, getSingleRawBlog)
 	.put(auth, updateBlog);
 

@@ -9,3 +9,7 @@ export function getToken() {
 
 	return localToken;
 }
+
+export function getRole() {
+	return localStorage.getItem(localtoragekeys.role);
+}

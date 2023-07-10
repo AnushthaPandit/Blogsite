@@ -9,7 +9,7 @@ module.exports.generateToken = ({ id, email, role }) => {
 module.exports.verifyToken = (token) => {
 	try {
 		const privateKey = process.env.TOKEN_KEY;
-		jwt.verify(token, privateKey);
+		return jwt.verify(token, privateKey);
 	} catch (err) {
 		throw new ErrorResponse("Authorization failed!", 401);
 	}
