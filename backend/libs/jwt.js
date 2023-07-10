@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-module.exports.generateToken = ({ id, email }) => {
+module.exports.generateToken = ({ id, email, role }) => {
 	const privateKey = process.env.TOKEN_KEY;
-	return jwt.sign({ id, email }, privateKey, { expiresIn: 60 * 60 * 12 }); //12hr exp
+	return jwt.sign({ id, email, role }, privateKey, { expiresIn: 60 * 60 * 12 }); //12hr exp
 };
 
 module.exports.verifyToken = (token) => {

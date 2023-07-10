@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Typography, Box, TextField, Divider, Switch } from "@mui/material";
+import { Typography, Box, TextField, Divider, Button } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import BubbleButon from "./Bubbles";
@@ -9,6 +9,7 @@ import Paragraph from "./Paragraph";
 import BackdropLoader from "../../components/Backdrop";
 
 import { togglePublish } from "../../apis/blog.apis";
+import localtoragekeys from "../../constants/localstorage.constants";
 
 const EditBog = ({
 	initialValues,
@@ -22,13 +23,13 @@ const EditBog = ({
 }) => {
 	const [isLoading, setisLoading] = useState(false);
 	const [is_published, setis_published] = useState(initialValues.is_published);
+	const role = localStorage.getItem(localtoragekeys.role);
 
 	const handleSwithcChange = async (e) => {
 		try {
 			setisLoading(true);
-			const is_checked = e.target.checked;
-			await togglePublish(initialValues.blog_id, is_checked);
-			setis_published(is_checked);
+			await togglePublish(initialValues.blog_id, !is_published);
+			setis_published(!is_published);
 		} catch (error) {
 			alert("Something went wrong!");
 		} finally {
@@ -48,20 +49,20 @@ const EditBog = ({
 			enableReinitialize>
 			<Form>
 				<BackdropLoader open={isLoading} />
-				<Box
-					sx={{
-						width: "100%",
-						display: "flex",
-						justifyContent: "space-between",
-						alignItems: "center",
-					}}>
-					<Typography variant="h4">Edit Blog</Typography>
-					<Switch
-						onChange={handleSwithcChange}
-						checked={is_published}
-						size="large"
-					/>
-				</Box>
+				{role === "admin" ? (
+					<Box
+						sx={{
+							width: "100%",
+							display: "flex",
+							justifyContent: "space-between",
+							alignItems: "center",
+						}}>
+						<Typography variant="h4">Edit Blog</Typography>
+						<Button variant="contained" onClick={handleSwithcChange}>
+							{is_published ? "unpublish" : "publish"}
+						</Button>
+					</Box>
+				) : null}
 
 				{/* SEO header image */}
 

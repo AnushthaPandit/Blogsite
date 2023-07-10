@@ -24,8 +24,8 @@ export const deleteBlogById = (id) => {
 	return deleteRequest(`blogs/${id}`, getHeaders(getAuthHeader()));
 };
 
-export const togglePublish = (id, is_published) => {
-	return patchRequest(
+export const togglePublish = async (id, is_published) => {
+	return await patchRequest(
 		`blogs/${id}/toggle-publish`,
 		{ is_published },
 		getHeaders(getAuthHeader())

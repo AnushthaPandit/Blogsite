@@ -24,6 +24,7 @@ function Login() {
 				password,
 			});
 			localStorage.setItem(localstorageKeys.token, data.token);
+			localStorage.setItem(localstorageKeys.role, data.role);
 			setisLoading(false);
 			history.push("/");
 		} catch (error) {

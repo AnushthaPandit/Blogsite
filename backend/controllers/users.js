@@ -20,10 +20,15 @@ exports.login = asyncHandler(async (req, res, next) => {
 		return;
 	}
 
-	const token = generateToken({ id: rows[0].id, email: rows[0].email });
+	const token = generateToken({
+		id: rows[0].id,
+		email: rows[0].email,
+		role: rows[0].role,
+	});
 
 	res.send({
 		message: "Login successfull",
 		token,
+		role: rows[0].role,
 	});
 });
