@@ -168,8 +168,15 @@ exports.fetchPreviewBlog = asyncHandler(async (req, res, next) => {
 	const blog_slug = req.params.slug;
 	const is_preview = req.path.endsWith("/preview");
 
-	let q = `SELECT * FROM blogs WHERE slug='${blog_slug}' and is_published=${!is_preview}`;
-	let { rows, rowCount } = await pool.query(q);
+	let q;
+
+	if (is_preview) {
+		q = `SELECT * FROM blogs WHERE slug=$1`;
+	} else {
+		q = `SELECT * FROM blogs WHERE slug=$1 and is_published=true`;
+	}
+
+	let { rows, rowCount } = await pool.query({ text: q, values: [blog_slug] });
 
 	if (!rowCount) {
 		throw new ErrorResponse("Blog Not Found!", 404);
