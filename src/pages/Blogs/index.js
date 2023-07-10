@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 import BackdropLoader from "../../components/Backdrop";
 import CreateBlog from "./CreateBlog";
@@ -21,7 +22,7 @@ import CreateBlog from "./CreateBlog";
 import configs from "../../configs";
 import { deleteBlogById } from "../../apis/blog.apis";
 import { useBlogList } from "../../context/BlogList.context";
-import { getRole } from "../../utils/login.utils";
+import { getRole, logout } from "../../utils/login.utils";
 
 const BlogList = () => {
 	const { setloading, loading, rows, fetchBlogs } = useBlogList();
@@ -50,6 +51,11 @@ const BlogList = () => {
 		}
 	};
 
+	const handleLogOut = () => {
+		logout();
+		browserHistory.push("/login");
+	};
+
 	useEffect(() => {
 		fetchBlogs();
 	}, []);
@@ -57,12 +63,24 @@ const BlogList = () => {
 	return (
 		<>
 			<BackdropLoader open={loading} />
-			<Button
-				variant="contained"
-				color="primary"
-				onClick={setopenCreateDialog.bind(this, true)}>
-				Create Blog
-			</Button>
+
+			<Box
+				sx={{
+					width: "100%",
+					display: "flex",
+					justifyContent: "space-between",
+					alignItems: "center",
+				}}>
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={setopenCreateDialog.bind(this, true)}>
+					Create Blog
+				</Button>
+				<Button variant="contained" onClick={handleLogOut}>
+					Log Out
+				</Button>
+			</Box>
 			{!rows.length ? (
 				<Typography variant="h6">No Data Found!</Typography>
 			) : (

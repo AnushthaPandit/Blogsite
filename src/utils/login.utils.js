@@ -13,3 +13,8 @@ export function getToken() {
 export function getRole() {
 	return localStorage.getItem(localtoragekeys.role);
 }
+
+export function logout() {
+	localStorage.removeItem(localtoragekeys.role);
+	localStorage.removeItem(localtoragekeys.token);
+}
