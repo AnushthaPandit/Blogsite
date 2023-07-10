@@ -212,7 +212,11 @@ exports.fetchPreviewBlog = asyncHandler(async (req, res, next) => {
 	let { rows: sets } = await pool.query(q);
 
 	const context = {
-		base_url: "https://www.feba.co.in/",
+		base_url: process.env.BASE_URL,
+		blog_url: `${process.env.BASE_URL}pages/articles/${cat_data.slug}/${blog_data.slug}`,
+		site_name: "wednow",
+		author: "Team Wednow",
+		author_href: process.env.BASE_URL,
 		slug: blog_data.slug,
 		blog_created_time: blog_data.blog_created_time,
 		blog_update_time: blog_data.blog_update_time,

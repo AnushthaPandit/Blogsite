@@ -29,20 +29,20 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/logo192.png">
 
   <!-- SEO -->
-  <link rel="canonical" href="https://www.wednow.in/blogs/<%= slug %>">
+  <link rel="canonical" href="<%= blog_url %>">
   <meta property="og:type" content="article">
   <meta property="og:title" content="<%= title %>">
   <meta name="description" content="<%= description %>">
-  <meta property="og:url" content="https://www.wednow.in/blogs/<%= slug %>">
-  <meta property="og:site_name" content="WedNow">
+  <meta property="og:url" content="<%= blog_url %>">
+  <meta property="og:site_name" content="<%= site_name  %>">
   <meta property="article:published_time" content="<%= blog_created_time %>">
   <% if (blog_update_time) { %>
   <meta property="article:modified_time" content="<%= blog_update_time %>">
   <% } %>
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://www.wednow.in/<%= headerImage %>">
+  <meta name="twitter:image" content="<%= base_url + headerImage %>">
   <meta name="twitter:label1" content="Written by">
-  <meta name="twitter:data1" content="WedNow">
+  <meta name="twitter:data1" content="<%= author %>">
   <meta name="twitter:label2" content="Est. reading time">
   <meta name="twitter:data2" content="5 minutes">
 
@@ -139,7 +139,7 @@
         <%= title %>
       </h1>
       <span class="post__byline">
-        By <a href="https://www.wednow.in/" rel="author" class="fn">WedNow</a>
+        By <a href="<%= author_href %>" rel="author" class="fn"><%= author %></a>
       </span>
       ·
       <time class="post__updated" datetime="<%= blog_date_iso %>">

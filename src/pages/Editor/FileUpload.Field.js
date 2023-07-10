@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 import ImagePreview from "./ImagePreview.";
 import { imageUploadAPI } from "../../apis/image.apis";
@@ -58,13 +58,23 @@ const FileUploadField = ({
 
 	return (
 		<>
-			<Box m={1} pt={3} display="flex" flexDirection="row">
-				<div>
-					<Typography variant="body1">{label}</Typography>
+			<Box
+				m={1}
+				pt={3}
+				display="flex"
+				justifyContent={"center"}
+				alignItems={"center"}
+				flexDirection="column-reverse">
+				<Box borderBottom={"1px solid blue"} borderRadius={"20px"}>
+					<Button>
+						<label for={label + name}>upload {" " + label}</label>
+					</Button>
 					<TextField
 						type="file"
+						id={label + name}
 						fullWidth
 						name={name}
+						style={{ display: "none" }}
 						onChange={chnageHandler}
 						inputProps={{
 							accept: ".jpg, .png, .jpeg, .webp",
@@ -72,8 +82,10 @@ const FileUploadField = ({
 						}}
 						{...rest}
 					/>
-				</div>
-				<ImagePreview defaulImges={defaulImges} onCrossClick={onCrossClick} />
+				</Box>
+				<Box display={"flex"} justifyContent={"space-between"}>
+					<ImagePreview defaulImges={defaulImges} onCrossClick={onCrossClick} />
+				</Box>
 			</Box>
 		</>
 	);

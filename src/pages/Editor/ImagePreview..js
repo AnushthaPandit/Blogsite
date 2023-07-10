@@ -14,7 +14,9 @@ const ImagePreview = ({ defaulImges, onCrossClick }) => {
 	return defaulImges
 		? defaulImges.map((e, i) =>
 				e ? (
-					<div key={e} style={{ position: "relative" }}>
+					<div
+						key={e}
+						style={{ position: "relative", width: "100px", height: "100px" }}>
 						<IconButton
 							onClick={handleCrossClick.bind(this, i, e)}
 							style={{
