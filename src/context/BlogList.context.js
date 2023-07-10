@@ -24,10 +24,6 @@ export default function BlogsListContext({ children }) {
 		})();
 	};
 
-	useEffect(() => {
-		fetchBlogs();
-	}, []);
-
 	return (
 		<Context.Provider
 			value={{

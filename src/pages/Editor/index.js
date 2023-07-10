@@ -6,9 +6,11 @@ import EditBog from "./EditBog";
 import BackdropLoader from "../../components/Backdrop";
 
 import { getSingleRawBlog, updateBlogById } from "../../apis/blog.apis";
+import { useBlogList } from "../../context/BlogList.context";
 
 const Editor = (props) => {
 	const BLOG_ID = props.match.params.id;
+	const { fetchBlogs } = useBlogList();
 
 	const initialVals = {
 		title: "",
@@ -85,6 +87,7 @@ const Editor = (props) => {
 
 	useEffect(() => {
 		fetchBlogData();
+		fetchBlogs();
 		// eslint-disable-next-line
 	}, []);
 
