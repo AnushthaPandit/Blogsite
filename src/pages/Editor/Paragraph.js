@@ -72,6 +72,12 @@ const Paragraph = ({
 				fields_structure_index: i,
 			}));
 		}
+
+		if (e.key === "Enter") {
+			let newFormValues = [...fieldsStructure];
+			newFormValues[i]["para"] = newFormValues[i]["para"] + "<br />";
+			setfieldsStructure(newFormValues);
+		}
 	};
 
 	let handleChange = (i, e) => {
@@ -281,4 +287,4 @@ var alphabets = (() => {
 	return caps.concat(caps.map((letter) => letter.toLowerCase()));
 })();
 
-var allowed_keys_for_tags = [...alphabets, "_", "@", " ", "Backspace"];
+var allowed_keys_for_tags = [...alphabets, "_", "@", " ", "Backspace", "Enter"];
