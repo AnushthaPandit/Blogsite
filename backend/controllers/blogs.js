@@ -288,6 +288,10 @@ exports.getBlogSiteMap = asyncHandler(async (req, res, next) => {
 	const context = {
 		base_url,
 		blogs_text_hrefs,
+		url: process.env.BASE_URL + "pages/sitemap",
+		title: "Blog Sitemap Page",
+		description: "site map of blog site",
+		site_name: "Blogs",
 	};
 
 	res.render("blogs/sitemap", context);
