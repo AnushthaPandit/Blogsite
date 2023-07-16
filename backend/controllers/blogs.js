@@ -277,12 +277,16 @@ exports.fetchPreviewBlog = asyncHandler(async (req, res, next) => {
 });
 
 exports.getBlogSiteMap = asyncHandler(async (req, res, next) => {
-	const { rows } = await pool.query(`select title, slug from blogs`);
-	const base_url = "https://www.wednow.in/";
+	const { rows } = await pool.query(
+		`select blogs.desc, title, blogs.slug, header_image, categories.slug as cat_slug from blogs left join categories on blogs.category_id=categories.id where is_published=true`
+	);
+	const base_url = process.env.BASE_URL;
 
 	const blogs_text_hrefs = rows.map((e) => ({
 		text: e.title,
-		href: `blogs/${e.slug}`,
+		href: `pages/articles/${e.cat_slug}/${e.slug}`,
+		desc: e.desc,
+		header_image_url: e.header_image,
 	}));
 
 	const context = {

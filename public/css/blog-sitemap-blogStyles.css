@@ -451,6 +451,46 @@ nav {
 	align-items: center;
 }
 
+.card-list {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.card-container {
+	display: flex;
+	gap: 1rem;
+	text-decoration: none;
+}
+
+.card-container:hover {
+	text-decoration: underline;
+}
+
+.card-container img {
+	border-radius: 20px;
+	border: 1px solid black;
+	padding: 5px;
+}
+
+.card-container .text-container {
+	display: flex;
+	flex-direction: column;
+	text-decoration: none;
+}
+
+.card-container .text-container .title-h1 {
+	margin: 0;
+	padding: 0;
+}
+
+.card-container .text-container p {
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	font-size: 1rem;
+}
+
 @media (max-width: 500px) {
 
 	.blog-text-container,
